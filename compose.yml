@@ -1,0 +1,36 @@
+
+services:
+  db:
+    image: postgres:16.9
+    container_name: postgres_db2
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: mini_project
+    ports:
+     - "5435:5432"
+    volumes:
+      - postgres_data:/var/lib/postgres/data
+    networks:
+     - mini_project
+
+  pgadmin:
+    image: dpage/pgadmin4:9
+    container_name: pgadmin_1
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+     - "5051:80"
+    depends_on:
+      - db
+    networks:
+     - mini_project
+
+volumes:
+  postgres_data:
+
+networks:
+  mini_project:
